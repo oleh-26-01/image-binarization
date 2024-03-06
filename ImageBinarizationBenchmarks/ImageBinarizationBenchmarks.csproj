@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AnalysisLevel>latest</AnalysisLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="TestData\Output\**" />
+    <EmbeddedResource Remove="TestData\Output\**" />
+    <None Remove="TestData\Output\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImageProcessingCS\ImageProcessingCS.csproj" />
+    <ProjectReference Include="..\ImageProcessingFS\ImageProcessingFS.fsproj" />
+  </ItemGroup>
+
+</Project>
