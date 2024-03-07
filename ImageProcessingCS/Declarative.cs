@@ -23,7 +23,7 @@ public class Declarative : ISolution
         var totalPixels = pixels.Length;
         var threshold = Enumerable.Range(0, 256)
             .Select(t => CalculateSigmaB(histogram, totalPixels, t))
-            .MaxBy(sigmaB => sigmaB).threshold;
+            .MaxBy(t => t.sigmaB).threshold;
 
         return (byte)threshold;
     }
@@ -36,12 +36,14 @@ public class Declarative : ISolution
 
     private static (double sigmaB, int threshold) CalculateSigmaB(Dictionary<int, int> histogram, int totalPixels, int t)
     {
-        var qL = histogram.Where(kvp => kvp.Key < t).Sum(kvp => (double)kvp.Value / totalPixels);
-        var qH = histogram.Where(kvp => kvp.Key >= t).Sum(kvp => (double)kvp.Value / totalPixels);
+        var p = histogram.ToDictionary(kvp => kvp.Key, kvp => (double)kvp.Value / totalPixels);
+
+        var qL = p.Where(kvp => kvp.Key < t).Sum(kvp => kvp.Value);
+        var qH = p.Where(kvp => kvp.Key >= t).Sum(kvp => kvp.Value);
 
         if (qL == 0 || qH == 0) return (0, t);
-        var miuL = histogram.Where(kvp => kvp.Key < t).Sum(kvp => kvp.Key * (double)kvp.Value / totalPixels) / qL;
-        var miuH = histogram.Where(kvp => kvp.Key >= t).Sum(kvp => kvp.Key * (double)kvp.Value / totalPixels) / qH;
+        var miuL = p.Where(kvp => kvp.Key < t).Sum(kvp => kvp.Key * kvp.Value) / qL;
+        var miuH = p.Where(kvp => kvp.Key >= t).Sum(kvp => kvp.Key * kvp.Value) / qH;
 
         return (qL * qH * (miuL - miuH) * (miuL - miuH), t);
     }

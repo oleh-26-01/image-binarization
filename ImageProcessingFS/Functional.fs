@@ -76,10 +76,10 @@ module Functional =
                     qL * qH * (miuL - miuH) * (miuL - miuH)
             )
 
-        let threshold =
-            Array.maxBy id (Array.mapi (fun i x -> (x, byte i)) sigmaB) |> snd
+        let threshold = 
+            sigmaB |> Array.mapi (fun i v -> i, v) |> Array.maxBy snd |> fst
 
-        threshold
+        byte threshold
 
     let Binarize (pixels: byte[], threshold: byte) : byte[] =
         pixels |> Array.map (fun x -> if x > threshold then 255uy else 0uy)
