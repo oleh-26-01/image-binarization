@@ -1,4 +1,5 @@
-﻿using System.Runtime.Versioning;
+﻿using System.Diagnostics;
+using System.Runtime.Versioning;
 using ImageProcessing;
 
 namespace ImageBinarizationBenchmarks;
@@ -49,14 +50,39 @@ public class Program
             var image = new Image(file);
             Imperative.BinarizeOtsu(image.GrayPixels);
             image.Save($@"{outputPath}\{Path.GetFileName(file)}", true);
+            image.SaveBmp($@"{outputPath}\{Path.GetFileName(file).Replace("jpg", "bmp")}");
             count++;
             Console.WriteLine($"Image {count}/{total} binarized successfully.");
         }
+    }
+
+    public static void Task3()
+    {
+        // benchmark SaveBmp
+        int testCount = 100;
+        long time = 0;
+
+        var imagePath = @"C:\#Coding\C#\ImageBinarizationBenchmarks\ImageBinarizationBenchmarks\TestData\image3.jpg";
+
+        var image = new Image(imagePath);
+        var outputPath = @"C:\#Coding\C#\ImageBinarizationBenchmarks\ImageBinarizationBenchmarks\TestData\image3.bmp";
+
+        for (var i = 0; i < testCount; i++)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            image.SaveBmp(outputPath);
+            stopwatch.Stop();
+            time += stopwatch.ElapsedMilliseconds;
+        }
+
+        Console.WriteLine($"Average time: {time / testCount} ms");
     }
 
     public static void Main()
     {
         // Task1();
         Task2();
+        // Task3();
     }
 }

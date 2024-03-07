@@ -61,4 +61,47 @@ public struct Image
         image.UnlockBits(bitmapData);
         image.Save(path);
     }
+
+    public void SaveBmp(string path)
+    {
+        var pixelFormat = PixelFormat.Format1bppIndexed;
+
+        var bitmap = new Bitmap(Width, Height, pixelFormat);
+        bitmap.Palette.Entries[0] = Color.Black;
+        bitmap.Palette.Entries[1] = Color.White;
+        var bmpData = bitmap.LockBits(
+            new Rectangle(0, 0, Width, Height),
+            ImageLockMode.ReadWrite, bitmap.PixelFormat);
+
+        int stride = bmpData.Stride;
+        IntPtr scan0 = bmpData.Scan0;
+        int bytesPerPixel = 1;
+
+        unsafe
+        {
+            byte* ptr = (byte*)scan0;
+        
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x += 8)
+                {
+                    byte byteValue = 0;
+        
+                    for (int i = 0; i < 8; i++)
+                    {
+                        int pixelIndex = y * Width + x + i;
+                        if (pixelIndex < GrayPixels.Length && GrayPixels[pixelIndex] > 0)
+                        {
+                            byteValue |= (byte)(0x80 >> i);
+                        }
+                    }
+        
+                    ptr[y * stride + x / 8] = byteValue;
+                }
+            }
+        }
+
+        bitmap.UnlockBits(bmpData);
+        bitmap.Save(path);
+    }
 }
