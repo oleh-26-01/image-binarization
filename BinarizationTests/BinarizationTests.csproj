@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImageProcessingCS\ImageProcessingCS.csproj" />
-    <ProjectReference Include="..\ImageProcessingFS\ImageProcessingFS.fsproj" />
+    <ProjectReference Include="..\CSharp\CSharp.csproj" />
+    <ProjectReference Include="..\FSharp\FSharp.fsproj" />
   </ItemGroup>
 
   <ItemGroup>

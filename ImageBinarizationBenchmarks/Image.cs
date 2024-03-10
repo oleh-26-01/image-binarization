@@ -3,7 +3,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
-namespace ImageProcessing;
+namespace Common;
 
 [SupportedOSPlatform("windows")]
 public struct Image
@@ -16,7 +16,6 @@ public struct Image
     public int Height { get; }
 
     public int BitmapDataStride { get; }
-    public int BytesPerPixel => BitmapDataStride / Width;
 
     public Image(string path)
     {
@@ -75,7 +74,6 @@ public struct Image
 
         int stride = bmpData.Stride;
         IntPtr scan0 = bmpData.Scan0;
-        int bytesPerPixel = 1;
 
         unsafe
         {

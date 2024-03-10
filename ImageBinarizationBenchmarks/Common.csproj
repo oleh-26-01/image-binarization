@@ -17,8 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImageProcessingCS\ImageProcessingCS.csproj" />
-    <ProjectReference Include="..\ImageProcessingFS\ImageProcessingFS.fsproj" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CSharp\CSharp.csproj" />
+    <ProjectReference Include="..\FSharp\FSharp.fsproj" />
   </ItemGroup>
 
 </Project>

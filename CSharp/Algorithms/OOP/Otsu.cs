@@ -1,41 +1,33 @@
-﻿namespace ImageProcessing;
+﻿namespace CSharp.Algorithms.OOP;
 
 // ReSharper disable once InconsistentNaming
-public class OOP(byte[] pixels) : ISolution
+public class Otsu : IBinarizationAlgorithm
 {
-    public byte[] Pixels { get; set; } = pixels;
+    private byte[] Pixels { get; set; } = Array.Empty<byte>();
     private readonly int[] _histogram = new int[256];
 
-    private void Compute_histogram()
+    public override void Binarize(byte[] pixels)
     {
-        for (var i = 0; i < _histogram.Length; i++) _histogram[i] = 0;
-        foreach (var i in Pixels) _histogram[i]++;
-    }
+        Pixels = pixels;
 
-    public byte[] Binarize(byte threshold = 128)
-    {
-        for (var i = 0; i < Pixels.Length; i++)
-        {
-            Pixels[i] = (byte)(Pixels[i] > threshold ? 255 : 0);
-        }
-        return Pixels;
-    }
-
-    public byte[] BinarizeOtsu()
-    {
         var threshold = ThresholdingOtsu();
         for (var i = 0; i < Pixels.Length; i++)
         {
             Pixels[i] = (byte)(Pixels[i] > threshold ? 255 : 0);
         }
-        return Pixels;
+    }
+
+    private void ComputeHistogram()
+    {
+        for (var i = 0; i < _histogram.Length; i++) _histogram[i] = 0;
+        foreach (var i in Pixels) _histogram[i]++;
     }
 
     private byte ThresholdingOtsu()
     {
         const int nbins = 256;
 
-        Compute_histogram();
+        ComputeHistogram();
 
         var p = new double[_histogram.Length];
         for (var i = 0; i < _histogram.Length; i++) p[i] = (double)_histogram[i] / Pixels.Length;

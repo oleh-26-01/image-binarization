@@ -1,30 +1,11 @@
 ﻿using System.Runtime.Versioning;
 
-namespace ImageProcessing;
+namespace CSharp.Algorithms.Imperative;
 
 [SupportedOSPlatform("windows")]
-public class Imperative : ISolution
+public class Otsu : IBinarizationAlgorithm
 {
-    public static byte[] Binarize(byte[] pixels, byte threshold = 128)
-    {
-        for (var i = 0; i < pixels.Length; i++)
-        {
-            pixels[i] = (byte)(pixels[i] > threshold ? 255 : 0);
-        }
-        return pixels;
-    }
-
-    public static byte[] BinarizeOtsu(byte[] pixels)
-    {
-        var threshold = ThresholdingOtsu(pixels);
-        for (var i = 0; i < pixels.Length; i++)
-        {
-            pixels[i] = (byte)(pixels[i] > threshold ? 255 : 0);
-        }
-        return pixels;
-    }
-
-    private static byte ThresholdingOtsu(byte[] pixels)
+    public override void Binarize(byte[] pixels)
     {
         const int nbins = 256;
         var histogram = Histogram(pixels);
@@ -56,16 +37,21 @@ public class Imperative : ISolution
             sigmaB[t] = qL * qH * (miuL - miuH) * (miuL - miuH);
         }
 
-        var threshold = 0;
+        var tempThreshold = 0;
         var max = sigmaB[0];
         for (var i = 1; i < sigmaB.Length; i++)
         {
             if (!(sigmaB[i] > max)) continue;
             max = sigmaB[i];
-            threshold = i;
+            tempThreshold = i;
         }
 
-        return (byte)threshold;
+        byte threshold = (byte)tempThreshold;
+
+        for (var i = 0; i < pixels.Length; i++)
+        {
+            pixels[i] = (byte)(pixels[i] > threshold ? 255 : 0);
+        }
     }
 
     private static int[] Histogram(byte[] pixels)

@@ -1,19 +1,16 @@
 ﻿using System.Runtime.Versioning;
-using ImageProcessingCS;
 
-namespace ImageProcessing;
+namespace CSharp.Algorithms.Declarative;
 
 [SupportedOSPlatform("windows")]
-public class Declarative : ISolution
+public class Otsu : IBinarizationAlgorithm
 {
-    public static byte[] Binarize(byte[] pixels, byte threshold = 128)
+    public override void Binarize(byte[] pixels)
     {
-        return pixels.Map(pixel => pixel > threshold ? (byte)255 : (byte)0);
-    }
-
-    public static byte[] BinarizeOtsu(byte[] pixels)
-    {
-        return Binarize(pixels, ThresholdingOtsu(pixels));
+        var threshold = ThresholdingOtsu(pixels);
+        const byte upValue = 255;
+        const byte downValue = 0;
+        pixels.Map(p => p > threshold ? upValue : downValue);
     }
 
     private static byte ThresholdingOtsu(byte[] pixels)
@@ -28,12 +25,6 @@ public class Declarative : ISolution
         return (byte)threshold;
     }
 
-    private static Dictionary<int, int> Histogram(byte[] pixels)
-    {
-        return pixels.GroupBy(i => i)
-            .ToDictionary(g => (int)g.Key, g => g.Count());
-    }
-
     private static (double sigmaB, int threshold) CalculateSigmaB(Dictionary<int, int> histogram, int totalPixels, int t)
     {
         var p = histogram.ToDictionary(kvp => kvp.Key, kvp => (double)kvp.Value / totalPixels);
@@ -46,5 +37,11 @@ public class Declarative : ISolution
         var miuH = p.Where(kvp => kvp.Key >= t).Sum(kvp => kvp.Key * kvp.Value) / qH;
 
         return (qL * qH * (miuL - miuH) * (miuL - miuH), t);
+    }
+
+    private static Dictionary<int, int> Histogram(byte[] pixels)
+    {
+        return pixels.GroupBy(i => i)
+            .ToDictionary(g => (int)g.Key, g => g.Count());
     }
 }
