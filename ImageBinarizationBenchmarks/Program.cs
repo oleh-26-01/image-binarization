@@ -11,10 +11,10 @@ public class Program
 {
     public static void Sample()
     {
-        IBinarizationAlgorithm algorithm = new CSharp.Algorithms.Imperative.Sauvola();
+        IBinarizationAlgorithm algorithm = new CSharp.Algorithms.OOP.Sauvola();
 
-        var folderPath = @"C:\#Coding\C#\ImageBinarizationBenchmarks\ImageBinarizationBenchmarks\TestData\all\img";
-        var outputPath = $@"{folderPath}\binarized\Sauvola";
+        var folderPath = @"C:\#Coding\C#\ImageBinarizationBenchmarks\ImageBinarizationBenchmarks\TestData";
+        var outputPath = $@"{folderPath}\binarized";
         // binarize all images in the folder with algorithm
         var files = Directory.GetFiles(folderPath, "*.jpg");
         var count = 0;
@@ -24,13 +24,14 @@ public class Program
         foreach (var file in files)
         {
             var image = new Image(file);
-            algorithm.Binarize(image.GrayPixels, image.Width, image.Height);
-            image.Save($@"{outputPath}\{Path.GetFileName(file)}", true);
-            /*image.SaveBmp(
+            //algorithm.Binarize(image.GrayPixels, image.Width, image.Height);
+            Functional.Sauvola.Binarize(image.GrayPixels, image.Width, image.Height);
+            //image.Save($@"{outputPath}\{Path.GetFileName(file)}", true);
+            image.SaveBmp(
                 $@"{outputPath}\{Path.GetFileName(file)
                     .Replace(
                         ".jpg", 
-                        $"_{algorithm.Name}_{algorithm.Paradigm}.bmp")}");*/
+                        $"_{algorithm.Name}_{algorithm.Paradigm}.bmp")}");
             count++;
             //Console.WriteLine($"Image {count}/{total} binarized successfully.");
             if (count % 100 == 0)
@@ -42,22 +43,8 @@ public class Program
                                   $"Remaining: {remaining}");
             }
         }
-    }
 
-    public static void CalcMetrics()
-    {
-        // initialize two algorithms in array
-        var algorithms = new IBinarizationAlgorithm[]
-        {
-            new CSharp.Algorithms.Imperative.Otsu(),
-            new CSharp.Algorithms.Imperative.Sauvola()
-        };
-
-        var folderPath = @"C:\#Coding\C#\ImageBinarizationBenchmarks\ImageBinarizationBenchmarks\TestData\all";
-        var gtFolder = "GT";
-        var imagesFolder = "img";
-
-
+        Console.WriteLine($"Total time: {watch.Elapsed}");
     }
 
     public static void Main()
@@ -70,7 +57,7 @@ public class Program
         switch (option)
         {
             case 1:
-                BenchmarkRunner.Run<Otsu>();
+                BenchmarkRunner.Run<Sauvola>();
                 break;
             case 2:
                 Sample();

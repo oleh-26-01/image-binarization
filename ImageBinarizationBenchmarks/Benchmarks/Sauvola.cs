@@ -18,7 +18,7 @@ public class Sauvola
     [Benchmark]
     public void TestImperative()
     {
-        var algorithm = new CSharp.Algorithms.Imperative.Sauvola();
+        var algorithm = new CSharp.Algorithms.Imperative.Otsu();
         Array.Copy(_input, _testResult, _input.Length);
         algorithm.Binarize(_testResult, Width, Height);
     }
@@ -26,7 +26,7 @@ public class Sauvola
     [Benchmark]
     public void TestDeclarative()
     {
-        var algorithm = new CSharp.Algorithms.Declarative.Sauvola();
+        var algorithm = new CSharp.Algorithms.Declarative.Otsu();
         Array.Copy(_input, _testResult, _input.Length);
         algorithm.Binarize(_testResult, Width, Height);
     }
@@ -34,13 +34,13 @@ public class Sauvola
     [Benchmark]
     public void TestFunctional()
     {
-        _testResult = Functional.Sauvola.Binarize(_input, Width, Height);
+        _testResult = Functional.Otsu.Binarize(_input);
     }
 
     [Benchmark]
     public void TestOOP()
     {
-        var algorithm = new CSharp.Algorithms.OOP.Sauvola();
+        var algorithm = new CSharp.Algorithms.OOP.Otsu();
         Array.Copy(_input, _testResult, _input.Length);
         algorithm.Binarize(_testResult, Width, Height);
     }

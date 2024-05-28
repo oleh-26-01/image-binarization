@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Versioning;
+using System.Security.Cryptography;
 using BenchmarkDotNet.Attributes;
+using CSharp;
 
 namespace Common.Benchmarks;
 
@@ -9,46 +11,50 @@ public class Otsu
 {
     private const int Width = 1024;
     private const int Height = 1024;
-    private const int Length = Width * Height;
-    private readonly byte[] _input = new byte[Length];
-    private byte[] _testResult = new byte[Length];
+    private const int ImagesPerIteration = 100; 
+    private readonly string _imagePath = @"C:\#Coding\C#\ImageBinarizationBenchmarks\ImageBinarizationBenchmarks\TestData\all\img";
 
     [Benchmark]
     public void TestImperative()
     {
-        var algorithm = new CSharp.Algorithms.Imperative.Otsu();
-        Array.Copy(_input, _testResult, _input.Length);
-        algorithm.Binarize(_testResult);
-    }
-
-    [Benchmark]
-    public void TestImperativeSauvola()
-    {
-        var algorithm = new CSharp.Algorithms.Imperative.Sauvola();
-        Array.Copy(_input, _testResult, _input.Length);
-        algorithm.Binarize(_testResult, Width, Height);
+        BinarizeBatch(new CSharp.Algorithms.Imperative.Otsu());
     }
 
     [Benchmark]
     public void TestDeclarative()
     {
-        var algorithm = new CSharp.Algorithms.Declarative.Otsu();
-        Array.Copy(_input, _testResult, _input.Length);
-        algorithm.Binarize(_testResult);
+        BinarizeBatch(new CSharp.Algorithms.Declarative.Otsu());
     }
 
 
     [Benchmark]
     public void TestFunctional()
     {
-        _testResult = Functional.Otsu.Binarize(_input);
+        var imageFiles = Directory.GetFiles(_imagePath, "*.jpg").Take(ImagesPerIteration).ToArray(); // Load 100 images
+
+        foreach (var file in imageFiles)
+        {
+            var image = new Image(file);
+            Functional.Otsu.Binarize(image.GrayPixels);
+
+        }
     }
+
 
     [Benchmark]
     public void TestOOP()
     {
-        var algorithm = new CSharp.Algorithms.OOP.Otsu();
-        Array.Copy(_input, _testResult, _input.Length);
-        algorithm.Binarize(_testResult);
+        BinarizeBatch(new CSharp.Algorithms.OOP.Otsu());
+    }
+
+    private void BinarizeBatch(IBinarizationAlgorithm algorithm)
+    {
+        var imageFiles = Directory.GetFiles(_imagePath, "*.jpg").Take(ImagesPerIteration).ToArray(); // Load 100 images
+
+        foreach (var file in imageFiles)
+        {
+            var image = new Image(file);
+            algorithm.Binarize(image.GrayPixels);
+        }
     }
 }

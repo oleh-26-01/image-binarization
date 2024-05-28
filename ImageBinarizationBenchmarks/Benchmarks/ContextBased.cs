@@ -1,14 +1,13 @@
 ﻿using System.Runtime.Versioning;
 using BenchmarkDotNet.Attributes;
 using System.Drawing;
-using BenchmarkDotNet.Jobs;
 
 namespace Common.Benchmarks;
 
 [SupportedOSPlatform("windows")]
 [MemoryDiagnoser]
 [SimpleJob(launchCount: 1, warmupCount: 5, invocationCount: 128)]
-public class OtsuContextBased
+public class ContextBased
 {
     private byte[] _image1Data;
     private byte[] _image2Data;
@@ -18,7 +17,6 @@ public class OtsuContextBased
     [GlobalSetup]
     public void Setup()
     {
-        // Load your two images (replace with actual paths)
         using var image1 = new Bitmap(@"C:\\#Coding\\C#\\ImageBinarizationBenchmarks\\ImageBinarizationBenchmarks\\TestData\\image1.jpg");
         using var image2 = new Bitmap(@"C:\\#Coding\\C#\\ImageBinarizationBenchmarks\\ImageBinarizationBenchmarks\\TestData\\image1-1.jpg");
         using var image3 = new Bitmap(@"C:\\#Coding\\C#\\ImageBinarizationBenchmarks\\ImageBinarizationBenchmarks\\TestData\\image1-2.jpg");
@@ -29,7 +27,6 @@ public class OtsuContextBased
         _index = 0;
     }
     
-    // Change 1: Display image names
     public enum ImageSource
     {
         Image1,
@@ -37,10 +34,9 @@ public class OtsuContextBased
         Image3
     }
 
-    public int Width { get; } = 1216;
-    public int Height { get; } = 1944;
-    
-    // Change 2: Use ImageSource enum
+    public int Width => 1216;
+    public int Height => 1944;
+
     [ParamsSource(nameof(ImageSources))]
     public ImageSource CurrentImage { get; set; }
 
@@ -51,12 +47,11 @@ public class OtsuContextBased
     [IterationSetup]
     public void IterationSetup()
     {
-        _testResult = CurrentImage switch // Update switch statement
+        _testResult = CurrentImage switch
         {
             ImageSource.Image1 => new byte[_image1Data.Length],
             ImageSource.Image2 => new byte[_image2Data.Length],
-            ImageSource.Image3 => // Add case for the third image
-                new byte[_image3Data.Length],
+            ImageSource.Image3 => new byte[_image3Data.Length],
             _ => _testResult
         };
     }
@@ -148,7 +143,7 @@ public class OtsuContextBased
             for (int x = 0; x < image.Width; x++)
             {
                 var pixel = image.GetPixel(x, y);
-                data[index++] = (byte)((pixel.R + pixel.G + pixel.B) / 3); // Average RGB for grayscale
+                data[index++] = (byte)((pixel.R + pixel.G + pixel.B) / 3);
             }
         }
         return data;

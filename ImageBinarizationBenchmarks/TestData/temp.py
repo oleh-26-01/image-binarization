@@ -49,6 +49,8 @@ mean_df = df.pivot(index='Method', columns='CurrentImage', values='Mean')
 error_df = df.pivot(index='Method', columns='CurrentImage', values='Error')
 std_dev_df = df.pivot(index='Method', columns='CurrentImage', values='StdDev')
 
+plt.rcParams.update({'font.size': 12})
+
 # Plotting with Expanded Time Analysis
 plt.figure(figsize=(15, 8))
 
