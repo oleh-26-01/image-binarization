@@ -17,7 +17,7 @@ public struct Image
 
     public int BitmapDataStride { get; }
 
-    public Image(string path)
+    public Image(string path, bool verbose = false)
     {
         var image = new Bitmap(path);
         var bitmapData = image.LockBits(
@@ -35,6 +35,10 @@ public struct Image
 
         BitmapDataStride = bitmapData.Stride;
         GrayPixels = new byte[byteCount / 3];
+
+        if (verbose)
+            Console.WriteLine($"Width: {Width}, Height: {Height}, Stride: {BitmapDataStride}\n" +
+                          $"Pixels: {Pixels.Length}, GrayPixels: {GrayPixels.Length}");
 
         for (var i = 0; i < byteCount; i += 3)
         {

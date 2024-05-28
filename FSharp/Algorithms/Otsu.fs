@@ -1,6 +1,6 @@
-﻿namespace ImageProcessing
+﻿namespace Functional
 
-module Functional =
+module Otsu =
     let Histogram2 (pixels: byte[]) : int[] =
         let histogram = Array.zeroCreate<int> 256
         pixels |> Array.iter (fun x -> histogram.[int x] <- histogram.[int x] + 1)
@@ -81,9 +81,9 @@ module Functional =
 
         byte threshold
 
-    let Binarize (pixels: byte[], threshold: byte) : byte[] =
+    let BinarizeBase (pixels: byte[], threshold: byte) : byte[] =
         pixels |> Array.map (fun x -> if x > threshold then 255uy else 0uy)
 
-    let BinarizeOtsu(pixels: byte[]) =
+    let Binarize(pixels: byte[]) =
         let threshold = ThresholdingOtsu pixels
-        Binarize (pixels, threshold)
+        BinarizeBase (pixels, threshold)

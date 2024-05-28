@@ -5,7 +5,10 @@ namespace CSharp.Algorithms.Imperative;
 [SupportedOSPlatform("windows")]
 public class Otsu : IBinarizationAlgorithm
 {
-    public override void Binarize(byte[] pixels)
+    public string Name => "Otsu";
+    public string Paradigm => "Imperative";
+
+    public void Binarize(byte[] pixels, int width = -1, int height = -1)
     {
         const int nbins = 256;
         var histogram = Histogram(pixels);

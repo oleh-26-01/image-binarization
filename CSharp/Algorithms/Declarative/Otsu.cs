@@ -1,11 +1,11 @@
-﻿using System.Runtime.Versioning;
+﻿namespace CSharp.Algorithms.Declarative;
 
-namespace CSharp.Algorithms.Declarative;
-
-[SupportedOSPlatform("windows")]
 public class Otsu : IBinarizationAlgorithm
 {
-    public override void Binarize(byte[] pixels)
+    public string Name => "Otsu";
+    public string Paradigm => "Declarative";
+
+    public void Binarize(byte[] pixels, int width = -1, int height = -1)
     {
         var threshold = ThresholdingOtsu(pixels);
         const byte upValue = 255;

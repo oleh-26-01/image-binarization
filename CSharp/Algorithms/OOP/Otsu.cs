@@ -3,10 +3,13 @@
 // ReSharper disable once InconsistentNaming
 public class Otsu : IBinarizationAlgorithm
 {
+    public string Name => "Otsu";
+    public string Paradigm => "OOP";
+
     private byte[] Pixels { get; set; } = Array.Empty<byte>();
     private readonly int[] _histogram = new int[256];
 
-    public override void Binarize(byte[] pixels)
+    public void Binarize(byte[] pixels, int width = -1, int height = -1)
     {
         Pixels = pixels;
 

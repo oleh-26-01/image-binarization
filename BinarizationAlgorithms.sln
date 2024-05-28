@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharp", "CSharp\CSharp.csp
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp", "FSharp\FSharp.fsproj", "{597D9D07-33AE-409E-BE91-B3D9DE2886AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinarizationTests", "BinarizationTests\BinarizationTests.csproj", "{DB45F46E-8311-4611-A4C6-600E653121A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinarizationTests", "BinarizationTests\BinarizationTests.csproj", "{2C0E6926-E8BE-4F71-B0CB-A6F7D9593649}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{597D9D07-33AE-409E-BE91-B3D9DE2886AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{597D9D07-33AE-409E-BE91-B3D9DE2886AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{597D9D07-33AE-409E-BE91-B3D9DE2886AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB45F46E-8311-4611-A4C6-600E653121A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB45F46E-8311-4611-A4C6-600E653121A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB45F46E-8311-4611-A4C6-600E653121A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB45F46E-8311-4611-A4C6-600E653121A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C0E6926-E8BE-4F71-B0CB-A6F7D9593649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C0E6926-E8BE-4F71-B0CB-A6F7D9593649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C0E6926-E8BE-4F71-B0CB-A6F7D9593649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C0E6926-E8BE-4F71-B0CB-A6F7D9593649}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

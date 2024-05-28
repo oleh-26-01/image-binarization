@@ -8,6 +8,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <AnalysisLevel>latest</AnalysisLevel>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <BenchmarkDotNetToolchain>InProcess</BenchmarkDotNetToolchain> 
   </PropertyGroup>
 
   <ItemGroup>

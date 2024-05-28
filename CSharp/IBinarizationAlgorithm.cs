@@ -1,6 +1,9 @@
 ﻿namespace CSharp;
 
-public abstract class IBinarizationAlgorithm
+public interface IBinarizationAlgorithm
 {
-    public abstract void Binarize(byte[] pixels);
+    string Name { get; } // Name of the algorithm
+    string Paradigm { get; } // Imperative, Declarative, Functional, OOP
+
+    public void Binarize(byte[] pixels, int width = -1, int height = -1);
 }

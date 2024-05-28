@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Algorithms\Sauvola.fs" />
     <Compile Include="Algorithms\Otsu.fs" />
   </ItemGroup>
 

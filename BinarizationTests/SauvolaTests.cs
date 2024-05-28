@@ -1,12 +1,14 @@
-using System.Runtime.Versioning;
+﻿using System.Runtime.Versioning;
 using CSharp;
 
 namespace BinarizationTests;
 
 [TestClass, SupportedOSPlatform("windows")]
-public class OtsuTests
+public class SauvolaTests
 {
     private static readonly int _length = 1024 * 1024;
+    private static readonly int _width = 1024;
+    private static readonly int _height = 1024;
     private static readonly float _allowed = 1e-5f;
     private readonly byte[] _input = Helper.GenerateArray(_length);
     private readonly byte[] _correct = new byte[_length];
@@ -14,9 +16,9 @@ public class OtsuTests
     [TestInitialize]
     public void Initialize()
     {
-        IBinarizationAlgorithm algorithm = new CSharp.Algorithms.Imperative.Otsu();
+        IBinarizationAlgorithm imperativeSauvola = new CSharp.Algorithms.Imperative.Sauvola();
         Array.Copy(_input, _correct, _length);
-        algorithm.Binarize(_correct);
+        imperativeSauvola.Binarize(_correct, _width, _height); 
     }
 
     [TestMethod]
@@ -24,8 +26,8 @@ public class OtsuTests
     {
         var testResult = new byte[_length];
         Array.Copy(_input, testResult, _length);
-        var algorithm = new CSharp.Algorithms.Declarative.Otsu();
-        algorithm.Binarize(testResult);
+        var algorithm = new CSharp.Algorithms.Declarative.Sauvola();
+        algorithm.Binarize(testResult, _width, _height);
         CollectionAssert.AreEqual(_correct, testResult);
     }
 
@@ -34,7 +36,7 @@ public class OtsuTests
     {
         var testResult = new byte[_length];
         Array.Copy(_input, testResult, _length);
-        testResult = Functional.Otsu.Binarize(testResult);
+        testResult = Functional.Sauvola.Binarize(testResult, _width, _height);
         Assert.IsTrue(DiffPercentage(_correct, testResult) <= _allowed);
     }
 
@@ -57,8 +59,8 @@ public class OtsuTests
     {
         var testResult = new byte[_length];
         Array.Copy(_input, testResult, _length);
-        var algorithm = new CSharp.Algorithms.OOP.Otsu();
-        algorithm.Binarize(testResult);
+        var algorithm = new CSharp.Algorithms.OOP.Sauvola();
+        algorithm.Binarize(testResult, _width, _height);
         CollectionAssert.AreEqual(_correct, testResult);
     }
 }
